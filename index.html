@@ -1,482 +1,177 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Vladyslav Bevza — Media Production</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="color-scheme" content="light" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#fafbfc;
-      --card:#ffffff;
-      --text:#0f172a;      /* slate-900 */
-      --muted:#475569;     /* slate-600 */
-      --line:#e5e7eb;      /* gray-200 */
-      --accent-from:#6366f1; /* indigo-500 */
-      --accent-to:#06b6d4;   /* cyan-500 */
-      --accent-2-from:#f97316; /* orange-500 */
-      --accent-2-to:#f59e0b;   /* amber-500 */
-      --shadow:0 4px 18px rgba(2,6,23,.06);
-      --radius:16px;
-      --maxw:880px;
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
-    a{color:var(--text);}
-    .wrap{max-width:var(--maxw);margin:28px auto;padding:16px}
-    header{
-      position:sticky;top:0;z-index:20;background:linear-gradient(180deg,rgba(255,255,255,.92),rgba(255,255,255,.86));
-      backdrop-filter: saturate(1.2) blur(6px);
-      border-bottom:1px solid var(--line);
-    }
-    .nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:10px 16px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .dot{
-      width:12px;height:12px;border-radius:999px;
-      background:linear-gradient(135deg,var(--accent-from),var(--accent-to));
-      box-shadow:0 0 0 4px rgba(99,102,241,.08);
-    }
-    .title{font-weight:600}
-    .lang-switch{display:flex;gap:6px;align-items:center}
-    .lang-btn{
-      border:1px solid var(--line);background:var(--card);padding:6px 10px;border-radius:10px;cursor:pointer;font-size:13px;
-      transition:transform .08s ease, border-color .2s ease;
-    }
-    .lang-btn.active{border-color:transparent;background:linear-gradient(135deg,var(--accent-from),var(--accent-to));color:white}
-    .lang-btn:focus{outline:2px solid var(--accent-to);outline-offset:2px}
-    .lang-btn:active{transform:translateY(1px)}
-    .print-btn{margin-left:8px}
-    .print-btn::before{content:"↧ ";opacity:.7}
-
-    .hero{
-      margin:18px auto 14px; padding:18px 16px 6px;
-      display:flex;align-items:flex-start;justify-content:space-between;/* gap:16px; */ flex-wrap:wrap;
-    }
-    .hero h1{margin:4px 0 6px;font-size:28px;font-weight:600;letter-spacing:.2px}
-    .role{
-      font-family:"Source Serif Pro",Georgia,serif;font-size:18px;color:var(--muted);margin:0 0 4px;
-    }
-    .contact{font-size:14px;color:var(--muted)}
-    .badge{
-      display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;
-      background:linear-gradient(135deg,var(--accent-2-from),var(--accent-2-to));color:white;margin-top:6px
-    }
-    .hero-main {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-    }
-    .profile-photo {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        object-fit: cover;
-        /* margin-right: 16px; */ /* Отступ справа от фото - теперь через gap */
-        flex-shrink: 0; /* Чтобы фото не сжималось */
-        border: 2px solid var(--line);
-        box-shadow: 0 2px 8px rgba(0,0,0,.08);
-    }
-    @media (max-width: 720px) {
-        .hero-main {
-            gap: 12px;
-        }
-        .profile-photo {
-            width: 80px;
-            height: 80px;
-            /* margin-right: 12px; */ /* теперь через gap */
-        }
-    }
-
-
-    .grid{display:grid;grid-template-columns:1fr;gap:14px}
-    .section{
-      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);
-      padding:18px 16px; opacity:0; transform: translateY(8px); animation:fadeIn .6s ease forwards;
-    }
-    .section:nth-child(2){animation-delay:.02s}
-    .section:nth-child(3){animation-delay:.04s}
-    .section:nth-child(4){animation-delay:.06s}
-    .section:nth-child(5){animation-delay:.08s}
-
-    .hline{
-      display:inline-block;padding-bottom:6px;margin-bottom:10px;
-      background:
-        linear-gradient(135deg,var(--accent-from),var(--accent-to)) left bottom/100% 2px no-repeat;
-      font-weight:600;
-    }
-    h2{font-size:18px;margin:0 0 8px}
-    p{margin:6px 0}
-    ul{margin:6px 0 0 18px;padding:0}
-    li{margin:6px 0}
-    .kvs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    @media (max-width:720px){ .kvs{grid-template-columns:1fr} .hero h1{font-size:24px} }
-
-    .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:860px){ .two-col{grid-template-columns:1fr} }
-
-    .pill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 8px;margin:4px 6px 0 0;display:inline-block}
-    .links a{display:block;margin:6px 0 0}
-
-    .lang{display:none}
-    .lang.show{display:block}
-
-    .footnote{font-size:12px;color:var(--muted)}
-    .muted{color:var(--muted)}
-    .list-tight li{margin:4px 0}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px;color:var(--muted)}
-
-    @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-    @media (prefers-reduced-motion: reduce){
-      *{animation:none !important; transition:none !important}
-    }
-
-    @media print{
-      header{position:static;background:white;border:none}
-      .section{box-shadow:none;border-color:#ddd}
-      .lang-switch,.print-btn,.badge,.dot{display:none}
-      body{background:white}
-      .profile-photo {display: block; width: 80px; height: 80px; margin-right: 12px; border: 1px solid #ccc; box-shadow: none;}
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vladyslav Bevza | AI Solutions Architect & Technical Lead</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <nav class="nav" aria-label="Top">
-      <div class="brand">
-        <div class="dot" aria-hidden="true"></div>
-        <div class="title">CV</div>
-      </div>
-      <div class="lang-switch">
-        <button class="lang-btn active" data-lang="en" aria-pressed="true" aria-label="Switch to English">EN</button>
-        <button class="lang-btn" data-lang="uk" aria-pressed="false" aria-label="Перемкнути на українську">UKR</button>
-        <button class="lang-btn print-btn" onclick="window.print()" title="Print to PDF">PDF</button>
-      </div>
-    </nav>
-  </header>
+    <canvas id="bg-canvas"></canvas>
+    
+    <div class="container">
+        <!-- HEADER -->
+        <header class="fade-in">
+            <img src="https://i.postimg.cc/Fsgq9MJg/1721313573084.jpg" alt="Vladyslav Bevza" class="profile-photo">
+            <h1 class="accent">Vladyslav (Влад) Bevza</h1>
+            <h2>AI Solutions Architect & Technical Managing Partner</h2>
+            <div class="contact-links">
+                <a href="mailto:merkoforua@gmail.com">merkoforua@gmail.com</a>
+                <span class="divider">•</span>
+                <a href="https://t.me/merkoso" target="_blank">@merkoso</a>
+                <span class="divider">•</span>
+                <a href="https://linkedin.com/in/merkosoul/" target="_blank">LinkedIn</a>
+            </div>
+        </header>
 
-  <main class="wrap">
-    <!-- EN --><section class="lang lang-en show" lang="en" aria-label="English Version">
-      <div class="hero">
-        <div class="hero-main">
-          <img src="https://i.postimg.cc/Fsgq9MJg/1721313573084.jpg" alt="Vladyslav Bevza" class="profile-photo">
-          <div>
-            <h1>Vladyslav Bevza</h1>
-            <p class="role">Media Production / Content Specialist</p>
-            <div class="badge">Fluent English · Based in Europe</div>
-            <p class="contact" style="margin-top:6px">
-              <strong>Email:</strong> <a href="mailto:merkoforua@gmail.com">merkofoforua@gmail.com</a>
-            </p>
-          </div>
-        </div>
-        <div class="mono">
-          Factual CV. Portfolio is not assembled; a few public links are below.
-        </div>
-      </div>
-
-      <div class="grid">
-        <section class="section">
-          <h2 class="hline">Summary</h2>
-          <p>
-            Media specialist with over 6 years of experience in the end-to-end production of video and audio content. Skilled in concept development, post-production (editing, color, sound), and on-set supervision. Accustomed to dynamic, creative environments and practical use of AI tools in workflows.
-          </p>
+        <!-- PROFILE -->
+        <section class="profile fade-in">
+            <p>Specialist with 8+ years of experience in high-tier media production, post-production, and directing, transitioning into practical AI integration. I build functional bridges between complex creative tasks and emerging AI technologies (LLMs, GenAI Video/Audio). Capable of full-cycle media creation—from concept and on-site coordination to advanced editing, color grading, and sound design.</p>
+            <p>My primary strength is autonomy and absolute discretion in high-ambiguity environments. I excel at taking an unstructured problem, architecting the optimal secure pipeline (including local LLMs and autonomous AI agents), and delivering a polished final product—whether it's a media asset, a bespoke digital avatar, or a private automated data system.</p>
         </section>
 
-        <section class="section">
-          <h2 class="hline">Professional Experience</h2>
-          <div class="two-col">
-            <div>
-              <h3 style="margin:0 0 4px">Natus Vincere (Media Team)</h3>
-              <p class="muted" style="margin:0 0 6px">Video Production Specialist (2016 - 2022)</p>
-              <ul class="list-tight">
-                <li>Co-managed content schedules and production for YouTube channels (CS:GO, Dota 2, R6, PUBG), ensuring consistent output.</li>
-                <li>Directed and executed full post-production cycles: from concept/scripting to editing, color grading, sound design (SFX, mixing), and final delivery.</li>
-                <li>Developed and directed key content, including tributes (s1mple, Dendi), sponsored projects (Logitech, Puma, AMD), and moviemaker collaborations (NAVI Clutch).</li>
-                <li>Worked on-set, supervising audio and collaborating with players and crews.</li>
-              </ul>
+        <!-- SKILLS / TECH STACK -->
+        <section class="skills fade-in">
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>AI & Automation</h3>
+                    <div class="tags">
+                        <span class="tag">Applied AI Strategy</span>
+                        <span class="tag">Workflow Automation (n8n, API)</span>
+                        <span class="tag">Custom Knowledge Bases (RAG)</span>
+                        <span class="tag">Media GenAI (Visuals & Audio)</span>
+                        <span class="tag">Business Process Optimization</span>
+                        <span class="tag">Autonomous AI Agents</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Post-Production & CGI</h3>
+                    <div class="tags">
+                        <span class="tag">Premiere Pro</span>
+                        <span class="tag">DaVinci Resolve (Color)</span>
+                        <span class="tag">After Effects</span>
+                        <span class="tag">Photoshop</span>
+                        <span class="tag">3D Equalizer</span>
+                        <span class="tag">Blender</span>
+                        <span class="tag">Sound Engineering (SFX/Mastering)</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Production</h3>
+                    <div class="tags">
+                        <span class="tag">On-site Coordination</span>
+                        <span class="tag">Directing</span>
+                        <span class="tag">Multi-camera Management</span>
+                        <span class="tag">Green Screen Virtual Production</span>
+                        <span class="tag">Lighting / Gaffer</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Soft Skills</h3>
+                    <div class="tags">
+                        <span class="tag">Remote Coordination</span>
+                        <span class="tag">Autonomous Problem Solving</span>
+                        <span class="tag">Macro-trend Analysis</span>
+                        <span class="tag">Cross-disciplinary Communication</span>
+                    </div>
+                </div>
             </div>
-            <div>
-              <h3 style="margin:0 0 4px">Freelance / Project-based</h3>
-              <p class="muted" style="margin:0 0 6px">Content Specialist & AI Workflow Developer (2022 - Present)</p>
-              <ul class="list-tight">
-                <li>Provided content strategy, scripting, and post-production for various clients (e.g., John Deere, Horsch).</li>
-                <li>Developed and implemented experimental, AI-driven production pipelines for complex video projects (NDA).</li>
-                <li>Directed a 30-min international project, integrating greenscreen talent with full 3D environments (Blender) in a high-end studio setting (NDA).</li>
-                <li>Managed small project teams and delegated tasks for post-production and animation.</li>
-                <li>Provided sound design and audio mixing services for media projects.</li>
-              </ul>
-            </div>
-          </div>
-          <div class="two-col" style="margin-top:8px">
-            <div>
-              <h3 style="margin:0 0 4px">AI R&D / Business Development</h3>
-              <p class="muted" style="margin:0 0 6px">FlyMy.AI (BizDev) & Personal Projects</p>
-              <ul class="list-tight">
-                <li>As BizDev at FlyMy.AI, connected with startups, gathered technical requirements, and bridged product/dev teams.</li>
-                <li>Developed no-code/low-code solutions (parsers, RAG) for content research and workflow automation.</li>
-                <li>Extensive hands-on research and testing of generative AI tools (video, audio, text) for production pipelines.</li>
-                <li>Practical experience in prompt engineering for effective task execution.</li>
-              </ul>
-            </div>
-            <div>
-              <h3 style="margin:0 0 4px">Teaching / Community</h3>
-              <p class="muted" style="margin:0 0 6px">Occasional lectures and course facilitation</p>
-              <ul class="list-tight">
-                <li>Led courses and personal sessions on video editing.</li>
-                <li>Delivered lectures on neuropsychophysiology for high school students.</li>
-                <li>Comfortable with public speaking and running structured sessions.</li>
-              </ul>
-            </div>
-          </div>
         </section>
 
-        <section class="section">
-          <h2 class="hline">Selected Public Links</h2>
-          <div class="links">
-            <a href="https://youtu.be/R-5PrnwUSD0" target="_blank" rel="noopener noreferrer">s1mple — 5 years with NAVI (doc/tribute)</a>
-            <a href="https://youtu.be/73XWJbOwRJ0" target="_blank" rel="noopener noreferrer">Dendi tribute</a>
-            <a href="https://youtu.be/fVdzL8m5SjI" target="_blank" rel="noopener noreferrer">Logitech × Perfecto (promo)</a>
-            <a href="https://youtu.be/XlabQUqsXKU" target="_blank" rel="noopener noreferrer">NAVI × Schneider apparel</a>
-            <a href="https://youtu.be/JU_cgV3AJ5k" target="_blank" rel="noopener noreferrer">LandTech (Colorist)</a>
-            <a href="https://youtu.be/IAL7q9k3ifE" target="_blank" rel="noopener noreferrer">Rainbow Six content example</a>
-          </div>
-          <p class="footnote">Full portfolio is not assembled. Additional links available on request.</p>
-        </section>
+        <!-- EXPERIENCE -->
+        <section class="experience">
+            <h2 class="section-title fade-in">Experience</h2>
 
-        <section class="section">
-          <h2 class="hline">Skills & Tools</h2>
-          <div class="kvs">
-            <div>
-              <p><strong>Core Skills</strong></p>
-              <ul class="list-tight">
-                <li>Content & Script Development</li>
-                <li>Video Post-Production (Editing, Color Grading)</li>
-                <li>Sound Design (SFX, Audio Cleanup, Mixing)</li>
-                <li>On-Set Direction & Audio Supervision</li>
-                <li>AI-driven Production Workflows</li>
-                <li>Team Coordination & Handoffs</li>
-              </ul>
+            <!-- Role 1 -->
+            <div class="experience-card fade-in">
+                <div class="experience-header">
+                    <h3>AI Solutions Architect & Technical Managing Partner</h3>
+                    <span class="date">Mid 2024 – Present</span>
+                </div>
+                <h4>Freelance / Project-based</h4>
+                <ul>
+                    <li><strong>Boutique AI Team Leadership:</strong> Direct and coordinate a trusted network of specialized AI developers. Selected deployments include:
+                        <ul class="sub-list">
+                            <li><strong>Autonomous Agents:</strong> A Telegram-based AI assistant (fine-tuned local Qwen 3.5 32B) deployed in corporate chats for real-time RAG queries, web research, and image generation.</li>
+                            <li><strong>Automated Social Listening Pipeline:</strong> An open-source aggregator that scrapes Discord, YouTube, and Telegram to synthesize daily sentiment analysis and auto-generates a 10-minute executive briefing podcast for business owners.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Digital Twin & Avatar Creation:</strong> Developed hyper-realistic digital doubles for commercial clients and influencers using advanced generative AI pipelines, accurately imitating real human presence for seamless social deployment.</li>
+                    <li><strong>Smart Document Processing & Automation:</strong> Built secure, automated systems that instantly read, analyze, and draft responses for complex legal and state tenders. Capable of deploying these solutions either on fast cloud platforms or entirely offline (local) to guarantee absolute data privacy for sensitive client information.</li>
+                    <li><strong>AI-Accelerated Media Production:</strong> Integrated generative AI across the entire content pipeline—from automated storyboarding and asset generation to realistic voice cloning. This drastically cuts production costs and turnaround times while maintaining premium commercial quality.</li>
+                </ul>
             </div>
-            <div>
-              <p><strong>Primary Tools</strong></p>
-              <ul class="list-tight">
-                <li>Adobe Premiere Pro, After Effects</li>
-                <li>Adobe Audition</li>
-                <li>DaVinci Resolve (incl. Fairlight)</li>
-                <li>FL Studio</li>
-                <li>Blender (Basic)</li>
-                <li>Generative AI Tools (Midjourney, Runway, Kling, Suno, etc.)</li>
-                <li>Familiar with project tools (can adapt to Jira/Riverside).</li>
-              </ul>
+
+            <!-- Role 2 -->
+            <div class="experience-card fade-in">
+                <div class="experience-header">
+                    <h3>Media Lead & AI Content Creator</h3>
+                    <span class="date">Late 2024 – Mid 2025</span>
+                </div>
+                <h4>KATANA (Crypto Startup)</h4>
+                <ul>
+                    <li>Led the complete production cycle for community-focused promotional content.</li>
+                    <li>Conducted extensive R&D utilizing generative AI tools (Midjourney, Runway Gen-3, ComfyUI, FLUX) to produce complex, multi-minute narratives.</li>
+                    <li>Directed storylines, character consistency, and scene generation prior to the widespread availability of automated consistency tools, defining early best practices for the team.</li>
+                </ul>
             </div>
-          </div>
-        </section>
 
-        <section class="section">
-          <h2 class="hline">Education & Languages</h2>
-          <ul class="list-tight">
-            <li>MA in Psychology (2018)</li>
-            <li>Languages: English (fluent), Ukrainian (native), Russian (native)</li>
-          </ul>
-        </section>
-
-        <section class="section">
-          <h2 class="hline">Logistics</h2>
-          <ul class="list-tight">
-            <li>Work rhythm: steady pace, clear scope, daytime schedule.</li>
-            <li>Based in Europe; open to remote work and global travel.</li>
-          </ul>
-        </section>
-      </div>
-    </section>
-
-    <!-- UKR --><section class="lang lang-uk" lang="uk" aria-label="Українська версія">
-      <div class="hero">
-        <div class="hero-main">
-          <img src="https://i.postimg.cc/Fsgq9MJg/1721313573084.jpg" alt="Владислав Бевза" class="profile-photo">
-          <div>
-            <h1>Владислав Бевза</h1>
-            <p class="role">Медіавиробництво / Спеціаліст з контенту</p>
-            <div class="badge">Вільна англійська · В Європі</div>
-            <p class="contact" style="margin-top:6px">
-              <strong>Email:</strong> <a href="mailto:merkoforua@gmail.com">merkoforua@gmail.com</a>
-            </p>
-          </div>
-        </div>
-        <div class="mono">
-          Фактологічне CV. Портфоліо не зібране; нижче — кілька публічних посилань.
-        </div>
-      </div>
-
-      <div class="grid">
-        <section class="section">
-          <h2 class="hline">Коротко</h2>
-          <p>
-            Медіаспеціаліст із досвідом понад 6 років у повному циклі виробництва відео- та аудіоконтенту. Маю навички у розробці концепцій, постпродакшені (монтаж, колір, звук) та роботі на знімальному майданчику. Звик до динамічного, творчого середовища та практичного використання AI-інструментів у робочих процесах.
-          </p>
-        </section>
-
-        <section class="section">
-          <h2 class="hline">Професійний досвід</h2>
-          <div class="two-col">
-            <div>
-              <h3 style="margin:0 0 4px">Natus Vincere (Медіакоманда)</h3>
-              <p class="muted" style="margin:0 0 6px">Спеціаліст з відеовиробництва (2016 - 2022)</p>
-              <ul class="list-tight">
-                <li>Спільно з колегою керував графіками контенту та виробництвом для YouTube-каналів (CS:GO, Dota 2, R6, PUBG).</li>
-                <li>Керував та виконував повний цикл постпродакшену: від концепції/сценарію до монтажу, корекції кольору, саунд-дизайну (SFX, зведення) та фінальної здачі.</li>
-                <li>Розробляв та режисував ключовий контент: триб'юти (s1mple, Dendi), спонсорські проєкти (Logitech, Puma, AMD) та колаборації з мувімейкерами (NAVI Clutch).</li>
-                <li>Працював на знімальному майданчику, контролюючи аудіо та співпрацюючи з гравцями та командами.</li>
-              </ul>
+            <!-- Role 3 -->
+            <div class="experience-card fade-in">
+                <div class="experience-header">
+                    <h3>Business Developer & AI Feature Consultant</h3>
+                    <span class="date">Early 2024 (4 months)</span>
+                </div>
+                <h4>FlyMy.AI</h4>
+                <ul>
+                    <li>Orchestrated early-stage B2B outreach for a newly launched AI inference platform.</li>
+                    <li>Scraped lead databases, managed communications with CTOs/CEOs, and presented product use cases.</li>
+                    <li>Spearheaded strategic outreach to founders of adjacent tech startups, identifying mutual integration points and cross-promotional product synergies.</li>
+                    <li>Acted as a bridge between target clients and the development team, translating market needs into actionable LLM feature requirements.</li>
+                </ul>
             </div>
-            <div>
-              <h3 style="margin:0 0 4px">Фриланс / Проєктна робота</h3>
-              <p class="muted" style="margin:0 0 6px">Спеціаліст з контенту & AI (2022 - Дотепер)</p>
-              <ul class="list-tight">
-                <li>Надавав послуги з контент-стратегії, написання сценаріїв та постпродакшену для різних клієнтів (напр., John Deere, Horsch).</li>
-                <li>Розробляв та впроваджував експериментальні виробничі процеси на основі AI для складних відеопроєктів (NDA).</li>
-                <li>Режисував 30-хвилинний міжнародний проєкт, поєднуючи зйомки на хромакеї з повним 3D-оточенням (Blender) у high-end студії (NDA).</li>
-                <li>Керував невеликими проєктними командами та делегував завдання з постпродакшену та анімації.</li>
-                <li>Надавав послуги саунд-дизайну та зведення звуку для медіапроєктів.</li>
-              </ul>
+
+            <!-- Role 4 -->
+            <div class="experience-card fade-in">
+                <div class="experience-header">
+                    <h3>Technical Director / Camera Operator / Video Director</h3>
+                    <span class="date">2017 – Present (Peak to Mid-2024)</span>
+                </div>
+                <h4>Global NGO (Under NDA)</h4>
+                <ul>
+                    <li>Coordinated cross-functional on-site media teams and equipment for large-scale international events, ensuring flawless technical execution under strict deadlines.</li>
+                    <li>Directed a 30-minute international broadcast demanding complex, multi-stage CGI pipelines and extensive cross-departmental VFX delegation.</li>
+                    <li>Developed and adapted media materials with strict technical readiness for rapid, scalable distribution across global social and broadcast platforms.</li>
+                    <li>Managed end-to-end event documentation, rapid turnaround interviews, and high-impact social video content.</li>
+                </ul>
             </div>
-          </div>
-          <div class="two-col" style="margin-top:8px">
-            <div>
-              <h3 style="margin:0 0 4px">AI R&D / Business Development</h3>
-              <p class="muted" style="margin:0 0 6px">FlyMy.AI (BizDev) & Власні проєкти</p>
-              <ul class="list-tight">
-                <li>Як BizDev у FlyMy.AI, налагоджував зв'язки зі стартапами, збирав технічні вимоги та поєднував команди продукту та розробки.</li>
-                <li>Розробляв no-code/low-code рішення (парсери, RAG) для дослідження контенту та автоматизації процесів.</li>
-                <li>Проводив глибоке практичне дослідження та тестування генеративних AI-інструментів (відео, аудіо, текст).</li>
-                <li>Практичний досвід у промт-інжинірингу для ефективного виконання завдань.</li>
-              </ul>
+
+            <!-- Role 5 -->
+            <div class="experience-card fade-in">
+                <div class="experience-header">
+                    <h3>Director of Editing / Video Production Specialist</h3>
+                    <span class="date">2017 – 2023</span>
+                </div>
+                <h4>Natus Vincere (NaVi)</h4>
+                <ul>
+                    <li>Evolved from Junior Editor to Lead Editor handling the organization's highest-profile documentary, commercial, and tribute content.</li>
+                    <li><strong>Key Projects:</strong> Directed the editing and storytelling for the critically acclaimed "Tribute to Dendi" and the "s1mple Formula" documentary.</li>
+                    <li><strong>Commercial Integration:</strong> Edited and color-graded sponsored campaigns in collaboration with global brands (Logitech, Puma, AMD, Tinkoff, John Deere).</li>
+                    <li>Mentored junior editors and shaped the visual identity of the "NAVI Junior" launch campaign.</li>
+                </ul>
             </div>
-            <div>
-              <h3 style="margin:0 0 4px">Викладання / Спільнота</h3>
-              <p class="muted" style="margin:0 0 6px">Лекції та фасилітація курсів</p>
-              <ul class="list-tight">
-                <li>Проводив курси та індивідуальні сесії з відеомонтажу.</li>
-                <li>Читав лекції з нейропсихофізіології для старшокласників та студентів.</li>
-                <li>Вільно почуваюся під час публічних виступів та проведення структурованих занять.</li>
-              </ul>
-            </div>
-          </div>
+
         </section>
 
-        <section class="section">
-          <h2 class="hline">Вибрані публічні посилання</h2>
-          <div class="links">
-            <a href="https://youtu.be/R-5PrnwUSD0" target="_blank" rel="noopener noreferrer">s1mple — 5 років з NAVI (док/триб'ют)</a>
-            <a href="https://youtu.be/73XWJbOwRJ0" target="_blank" rel="noopener noreferrer">Триб'ют Dendi</a>
-            <a href="https://youtu.be/fVdzL8m5SjI" target="_blank" rel="noopener noreferrer">Logitech × Perfecto (промо)</a>
-            <a href="https://youtu.be/XlabQUqsXKU" target="_blank" rel="noopener noreferrer">NAVI × Schneider (одяг)</a>
-            <a href="https://youtu.be/JU_cgV3AJ5k" target="_blank" rel="noopener noreferrer">LandTech (Колорист)</a>
-            <a href="https://youtu.be/IAL7q9k3ifE" target="_blank" rel="noopener noreferrer">Приклад контенту Rainbow Six</a>
-          </div>
-          <p class="footnote">Повне портфоліо не зібране. Додаткові посилання – за запитом.</p>
-        </section>
-
-        <section class="section">
-          <h2 class="hline">Навички та Інструменти</h2>
-          <div class="kvs">
-            <div>
-              <p><strong>Основні навички</strong></p>
-              <ul class="list-tight">
-                <li>Розробка концепцій та сценаріїв</li>
-                <li>Відео постпродакшн (монтаж, колір)</li>
-                <li>Саунд-дизайн (SFX, чистка та зведення аудіо)</li>
-                <li>Режисура на майданчику та контроль звуку</li>
-                <li>Виробничі процеси з використанням AI</li>
-                <li>Координація команди та передача завдань</li>
-              </ul>
-            </div>
-            <div>
-              <p><strong>Основні інструменти</strong></p>
-              <ul class="list-tight">
-                <li>Adobe Premiere Pro, After Effects</li>
-                <li>Adobe Audition</li>
-                <li>DaVinci Resolve (вкл. Fairlight)</li>
-                <li>FL Studio</li>
-                <li>Blender (Базовий)</li>
-                <li>Генеративні AI-інструменти (Midjourney, Runway, Kling, Suno тощо)</li>
-                <li>Знайомий з інструментами (можу адаптуватися до Jira/Riverside).</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section class="section">
-          <h2 class="hline">Освіта та мови</h2>
-          <ul class="list-tight">
-            <li>Магістр психології (2018)</li>
-            <li>Мови: англійська (вільно), українська (рідна), російська (рідна)</li>
-          </ul>
-        </section>
-
-        <section class="section">
-          <h2 class="hline">Логістика</h2>
-          <ul class="list-tight">
-            <li>Темп роботи: стабільний, чіткий обсяг, денний графік.</li>
-            <li>Знаходжуся в Європі; відкритий до віддаленої роботи та подорожей.</li>
-          </ul>
-        </section>
-      </div>
-    </section>
-  </main>
-
-  <noscript>
-    <style>
-      /* Без JS покажем обе версии, чтобы резюме было читаемо. */
-      .lang{display:block}
-    </style>
-  </noscript>
-
-  <script>
-    (function(){
-      const btns = document.querySelectorAll('.lang-btn[data-lang]');
-      const langs = document.querySelectorAll('.lang');
-      const root = document.documentElement;
-
-      function setActiveBtn(code){
-        btns.forEach(x=>{
-          const on = x.getAttribute('data-lang')===code;
-          x.classList.toggle('active', on);
-          x.setAttribute('aria-pressed', on ? 'true' : 'false');
-        });
-      }
-      function applyLang(code){
-        if(!['en','uk'].includes(code)) code='en';
-        langs.forEach(el=>{
-          el.classList.toggle('show', el.classList.contains('lang-'+code));
-        });
-        setActiveBtn(code);
-        root.lang = code;
-        try{
-          localStorage.setItem('cv_lang', code);
-        }catch(e){}
-        try{
-          const url = new URL(window.location);
-          url.searchParams.set('lang', code);
-          history.replaceState(null,'',url);
-        }catch(e){}
-      }
-      // Detect initial language: URL ?lang=, then localStorage, else 'en'
-      let initial = 'en';
-      try{
-        const p = new URLSearchParams(location.search).get('lang');
-        if(p && ['en','uk'].includes(p)) initial = p;
-        else{
-          const saved = localStorage.getItem('cv_lang');
-          if(saved && ['en','uk'].includes(saved)) initial = saved;
-        }
-      }catch(e){}
-      applyLang(initial);
-
-      btns.forEach(b=>{
-        b.addEventListener('click', ()=> applyLang(b.getAttribute('data-lang')));
-      });
-    })();
-  </script>
+        <footer class="fade-in">
+            <p>© 2026 Vladyslav Bevza. Crafted with AI and purpose.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
+
