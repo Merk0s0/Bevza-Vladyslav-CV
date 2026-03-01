@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +9,339 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* ==========================================================================
+   CSS Variables & Typography Scale (Major Third)
+   ========================================================================== */
+        :root {
+            /* Colors - Deep Dark Theme with Emerald Accent */
+            --bg-color: #0d0f14;
+            --surface-color: #161923;
+            --surface-hover: #1e2230;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #10b981;
+            --accent-hover: #059669;
+            --border-color: rgba(255, 255, 255, 0.05);
+
+            /* Typography - Fluid clamp() for responsiveness */
+            --font-base: 'Inter', system-ui, -apple-system, sans-serif;
+            --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+            /* 16px to 18px */
+            --text-sm: 0.875rem;
+            /* 14px */
+            --text-h3: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+            /* 20px to 24px */
+            --text-h2: clamp(1.563rem, 1.4rem + 0.8vw, 1.953rem);
+            /* 25px to 31px */
+            --text-h1: clamp(2.441rem, 2.1rem + 1.5vw, 3.052rem);
+            /* 39px to 48px */
+
+            /* Spacing (8pt Grid System) */
+            --space-1: 0.5rem;
+            /* 8px */
+            --space-2: 1rem;
+            /* 16px */
+            --space-3: 1.5rem;
+            /* 24px */
+            --space-4: 2rem;
+            /* 32px */
+            --space-6: 3rem;
+            /* 48px */
+            --space-8: 4rem;
+            /* 64px */
+            --space-12: 6rem;
+            /* 96px */
+        }
+
+        /* ==========================================================================
+   Reset & Base Styles
+   ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-base);
+            font-size: var(--text-base);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.03), transparent 50%),
+                radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.03), transparent 50%);
+        }
+
+        /* Container */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--space-8) var(--space-4);
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ==========================================================================
+   Typography
+   ========================================================================== */
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+            line-height: 1.2;
+            margin-bottom: var(--space-2);
+        }
+
+        h1 {
+            font-size: var(--text-h1);
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: var(--text-h2);
+            margin-top: var(--space-6);
+            color: var(--text-primary);
+        }
+
+        h3 {
+            font-size: var(--text-h3);
+            color: var(--text-primary);
+        }
+
+        h4 {
+            font-size: var(--text-base);
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: var(--space-1);
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent);
+        }
+
+        .accent {
+            color: var(--text-primary);
+            background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ==========================================================================
+   Header Section
+   ========================================================================== */
+        header {
+            margin-bottom: var(--space-6);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: var(--space-3);
+            border: 2px solid var(--surface-hover);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        header h2 {
+            margin-top: 0;
+            color: var(--text-secondary);
+            font-size: var(--text-h3);
+            font-weight: 400;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            align-items: center;
+            margin-top: var(--space-2);
+            font-size: var(--text-sm);
+        }
+
+        .divider {
+            color: var(--border-color);
+        }
+
+        /* ==========================================================================
+   Skills Grid
+   ========================================================================== */
+        .skills {
+            margin: var(--space-8) 0;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-4);
+        }
+
+        .skill-category h3 {
+            font-size: var(--text-base);
+            color: var(--text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-1);
+        }
+
+        .tag {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: var(--text-sm);
+            transition: all 0.2s ease;
+        }
+
+        .tag:hover {
+            background-color: var(--surface-hover);
+            color: var(--text-primary);
+            border-color: var(--accent);
+        }
+
+        /* ==========================================================================
+   Experience Section
+   ========================================================================== */
+        .experience-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: var(--space-4);
+            margin-bottom: var(--space-4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .experience-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: var(--space-1);
+            margin-bottom: var(--space-1);
+        }
+
+        .experience-header h3 {
+            margin-bottom: 0;
+        }
+
+        .date {
+            color: var(--text-secondary);
+            font-size: var(--text-sm);
+            font-family: monospace;
+        }
+
+        ul {
+            list-style-position: outside;
+            margin-left: var(--space-3);
+            color: var(--text-secondary);
+        }
+
+        ul li {
+            margin-bottom: var(--space-1);
+        }
+
+        .sub-list {
+            margin-top: var(--space-1);
+            margin-bottom: var(--space-2);
+            list-style-type: circle;
+        }
+
+        strong {
+            color: var(--text-primary);
+        }
+
+        /* ==========================================================================
+   Footer
+   ========================================================================== */
+        footer {
+            margin-top: var(--space-12);
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            padding-top: var(--space-4);
+        }
+
+        footer p {
+            font-size: var(--text-sm);
+            margin-bottom: 0;
+        }
+
+        /* ==========================================================================
+   Animations
+   ========================================================================== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+   Media Queries
+   ========================================================================== */
+        @media (max-width: 600px) {
+            .container {
+                padding: var(--space-4) var(--space-2);
+            }
+
+            .experience-header {
+                flex-direction: column;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
+
 <body>
     <canvas id="bg-canvas"></canvas>
-    
+
     <div class="container">
         <!-- HEADER -->
         <header class="fade-in">
@@ -30,8 +359,14 @@
 
         <!-- PROFILE -->
         <section class="profile fade-in">
-            <p>Specialist with 8+ years of experience in high-tier media production, post-production, and directing, transitioning into practical AI integration. I build functional bridges between complex creative tasks and emerging AI technologies (LLMs, GenAI Video/Audio). Capable of full-cycle media creation—from concept and on-site coordination to advanced editing, color grading, and sound design.</p>
-            <p>My primary strength is autonomy and absolute discretion in high-ambiguity environments. I excel at taking an unstructured problem, architecting the optimal secure pipeline (including local LLMs and autonomous AI agents), and delivering a polished final product—whether it's a media asset, a bespoke digital avatar, or a private automated data system.</p>
+            <p>Specialist with 8+ years of experience in high-tier media production, post-production, and directing,
+                transitioning into practical AI integration. I build functional bridges between complex creative tasks
+                and emerging AI technologies (LLMs, GenAI Video/Audio). Capable of full-cycle media creation—from
+                concept and on-site coordination to advanced editing, color grading, and sound design.</p>
+            <p>My primary strength is autonomy and absolute discretion in high-ambiguity environments. I excel at taking
+                an unstructured problem, architecting the optimal secure pipeline (including local LLMs and autonomous
+                AI agents), and delivering a polished final product—whether it's a media asset, a bespoke digital
+                avatar, or a private automated data system.</p>
         </section>
 
         <!-- SKILLS / TECH STACK -->
@@ -94,15 +429,28 @@
                 </div>
                 <h4>Freelance / Project-based</h4>
                 <ul>
-                    <li><strong>Boutique AI Team Leadership:</strong> Direct and coordinate a trusted network of specialized AI developers. Selected deployments include:
+                    <li><strong>Boutique AI Team Leadership:</strong> Direct and coordinate a trusted network of
+                        specialized AI developers. Selected deployments include:
                         <ul class="sub-list">
-                            <li><strong>Autonomous Agents:</strong> A Telegram-based AI assistant (fine-tuned local Qwen 3.5 32B) deployed in corporate chats for real-time RAG queries, web research, and image generation.</li>
-                            <li><strong>Automated Social Listening Pipeline:</strong> An open-source aggregator that scrapes Discord, YouTube, and Telegram to synthesize daily sentiment analysis and auto-generates a 10-minute executive briefing podcast for business owners.</li>
+                            <li><strong>Autonomous Agents:</strong> A Telegram-based AI assistant (fine-tuned local Qwen
+                                3.5 32B) deployed in corporate chats for real-time RAG queries, web research, and image
+                                generation.</li>
+                            <li><strong>Automated Social Listening Pipeline:</strong> An open-source aggregator that
+                                scrapes Discord, YouTube, and Telegram to synthesize daily sentiment analysis and
+                                auto-generates a 10-minute executive briefing podcast for business owners.</li>
                         </ul>
                     </li>
-                    <li><strong>Digital Twin & Avatar Creation:</strong> Developed hyper-realistic digital doubles for commercial clients and influencers using advanced generative AI pipelines, accurately imitating real human presence for seamless social deployment.</li>
-                    <li><strong>Smart Document Processing & Automation:</strong> Built secure, automated systems that instantly read, analyze, and draft responses for complex legal and state tenders. Capable of deploying these solutions either on fast cloud platforms or entirely offline (local) to guarantee absolute data privacy for sensitive client information.</li>
-                    <li><strong>AI-Accelerated Media Production:</strong> Integrated generative AI across the entire content pipeline—from automated storyboarding and asset generation to realistic voice cloning. This drastically cuts production costs and turnaround times while maintaining premium commercial quality.</li>
+                    <li><strong>Digital Twin & Avatar Creation:</strong> Developed hyper-realistic digital doubles for
+                        commercial clients and influencers using advanced generative AI pipelines, accurately imitating
+                        real human presence for seamless social deployment.</li>
+                    <li><strong>Smart Document Processing & Automation:</strong> Built secure, automated systems that
+                        instantly read, analyze, and draft responses for complex legal and state tenders. Capable of
+                        deploying these solutions either on fast cloud platforms or entirely offline (local) to
+                        guarantee absolute data privacy for sensitive client information.</li>
+                    <li><strong>AI-Accelerated Media Production:</strong> Integrated generative AI across the entire
+                        content pipeline—from automated storyboarding and asset generation to realistic voice cloning.
+                        This drastically cuts production costs and turnaround times while maintaining premium commercial
+                        quality.</li>
                 </ul>
             </div>
 
@@ -115,8 +463,10 @@
                 <h4>KATANA (Crypto Startup)</h4>
                 <ul>
                     <li>Led the complete production cycle for community-focused promotional content.</li>
-                    <li>Conducted extensive R&D utilizing generative AI tools (Midjourney, Runway Gen-3, ComfyUI, FLUX) to produce complex, multi-minute narratives.</li>
-                    <li>Directed storylines, character consistency, and scene generation prior to the widespread availability of automated consistency tools, defining early best practices for the team.</li>
+                    <li>Conducted extensive R&D utilizing generative AI tools (Midjourney, Runway Gen-3, ComfyUI, FLUX)
+                        to produce complex, multi-minute narratives.</li>
+                    <li>Directed storylines, character consistency, and scene generation prior to the widespread
+                        availability of automated consistency tools, defining early best practices for the team.</li>
                 </ul>
             </div>
 
@@ -129,9 +479,12 @@
                 <h4>FlyMy.AI</h4>
                 <ul>
                     <li>Orchestrated early-stage B2B outreach for a newly launched AI inference platform.</li>
-                    <li>Scraped lead databases, managed communications with CTOs/CEOs, and presented product use cases.</li>
-                    <li>Spearheaded strategic outreach to founders of adjacent tech startups, identifying mutual integration points and cross-promotional product synergies.</li>
-                    <li>Acted as a bridge between target clients and the development team, translating market needs into actionable LLM feature requirements.</li>
+                    <li>Scraped lead databases, managed communications with CTOs/CEOs, and presented product use cases.
+                    </li>
+                    <li>Spearheaded strategic outreach to founders of adjacent tech startups, identifying mutual
+                        integration points and cross-promotional product synergies.</li>
+                    <li>Acted as a bridge between target clients and the development team, translating market needs into
+                        actionable LLM feature requirements.</li>
                 </ul>
             </div>
 
@@ -143,10 +496,14 @@
                 </div>
                 <h4>Global NGO (Under NDA)</h4>
                 <ul>
-                    <li>Coordinated cross-functional on-site media teams and equipment for large-scale international events, ensuring flawless technical execution under strict deadlines.</li>
-                    <li>Directed a 30-minute international broadcast demanding complex, multi-stage CGI pipelines and extensive cross-departmental VFX delegation.</li>
-                    <li>Developed and adapted media materials with strict technical readiness for rapid, scalable distribution across global social and broadcast platforms.</li>
-                    <li>Managed end-to-end event documentation, rapid turnaround interviews, and high-impact social video content.</li>
+                    <li>Coordinated cross-functional on-site media teams and equipment for large-scale international
+                        events, ensuring flawless technical execution under strict deadlines.</li>
+                    <li>Directed a 30-minute international broadcast demanding complex, multi-stage CGI pipelines and
+                        extensive cross-departmental VFX delegation.</li>
+                    <li>Developed and adapted media materials with strict technical readiness for rapid, scalable
+                        distribution across global social and broadcast platforms.</li>
+                    <li>Managed end-to-end event documentation, rapid turnaround interviews, and high-impact social
+                        video content.</li>
                 </ul>
             </div>
 
@@ -158,10 +515,14 @@
                 </div>
                 <h4>Natus Vincere (NaVi)</h4>
                 <ul>
-                    <li>Evolved from Junior Editor to Lead Editor handling the organization's highest-profile documentary, commercial, and tribute content.</li>
-                    <li><strong>Key Projects:</strong> Directed the editing and storytelling for the critically acclaimed "Tribute to Dendi" and the "s1mple Formula" documentary.</li>
-                    <li><strong>Commercial Integration:</strong> Edited and color-graded sponsored campaigns in collaboration with global brands (Logitech, Puma, AMD, Tinkoff, John Deere).</li>
-                    <li>Mentored junior editors and shaped the visual identity of the "NAVI Junior" launch campaign.</li>
+                    <li>Evolved from Junior Editor to Lead Editor handling the organization's highest-profile
+                        documentary, commercial, and tribute content.</li>
+                    <li><strong>Key Projects:</strong> Directed the editing and storytelling for the critically
+                        acclaimed "Tribute to Dendi" and the "s1mple Formula" documentary.</li>
+                    <li><strong>Commercial Integration:</strong> Edited and color-graded sponsored campaigns in
+                        collaboration with global brands (Logitech, Puma, AMD, Tinkoff, John Deere).</li>
+                    <li>Mentored junior editors and shaped the visual identity of the "NAVI Junior" launch campaign.
+                    </li>
                 </ul>
             </div>
 
@@ -171,7 +532,126 @@
             <p>© 2026 Vladyslav Bevza. Crafted with AI and purpose.</p>
         </footer>
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
+    <script>
+        /**
+         * Web CV Interactivity & Aesthetics
+         * 
+         * 1. Intersection Observer for smooth, hardware-accelerated scroll fade-ins.
+         * 2. Canvas Particle System for a subtle, high-end background effect.
+         */
 
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* --- 1. Scroll Fade-In Observer --- */
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const fadeObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Optional: stop observing once faded in for performance
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach(el => {
+                fadeObserver.observe(el);
+            });
+
+            /* --- 2. Canvas Particle System --- */
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+
+            let width, height;
+            let particles = [];
+
+            // Config
+            const PARTICLE_COUNT = 40; // Subtle, not overwhelming
+            const PARTICLE_BASE_RADIUS = 0.8;
+            const CONNECT_DISTANCE = 150;
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.3; // Very slow
+                    this.vy = (Math.random() - 0.5) * 0.3;
+                    this.radius = Math.random() * 1.5 + PARTICLE_BASE_RADIUS;
+                }
+
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // Subtle wrap-around
+                    if (this.x < 0) this.x = width;
+                    if (this.x > width) this.x = 0;
+                    if (this.y < 0) this.y = height;
+                    if (this.y > height) this.y = 0;
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+                    ctx.fill();
+                }
+            }
+
+            function initParticles() {
+                particles = [];
+                for (let i = 0; i < PARTICLE_COUNT; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+
+                    // Connect nearby particles to form a subtle mesh network
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const distance = Math.sqrt(dx * dx + dy * dy);
+
+                        if (distance < CONNECT_DISTANCE) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            // Opacity scales with distance
+                            const opacity = 1 - (distance / CONNECT_DISTANCE);
+                            ctx.strokeStyle = `rgba(16, 185, 129, ${opacity * 0.15})`; // Subtle Emerald tint
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            // Initialize
+            window.addEventListener('resize', resize);
+            resize();
+            initParticles();
+            animate();
+        });
+    </script>
+</body>
+
+</html>
